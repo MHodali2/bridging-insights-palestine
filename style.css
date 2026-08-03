@@ -214,6 +214,17 @@ nav.primary-nav a[aria-current="page"]{
   }
   nav.primary-nav li{ padding: 10px 0; border-bottom: 1px solid var(--line); }
   .nav-toggle{ display:inline-block; }
+
+  /* The logo image already contains the "Bridging Insights Palestine"
+     wordmark, so the adjacent text label is redundant on narrow screens
+     and was the thing pushing the header into horizontal overflow. */
+  .brand-title{ display:none; }
+  .brand-logo{ height: 64px; }
+  .header-inner{ padding: 10px 20px 0; }
+}
+
+@media (max-width: 480px){
+  .wrap{ padding: 0 20px; }
 }
 
 /* --------------------------------------------------------------------------
@@ -385,18 +396,19 @@ section[id]{ scroll-margin-top: 140px; }
   position:relative;
   padding: 18px;
 }
-.hero-figure .corner{
+.hero-figure .corner,
+.ring-figure .corner{
   position:absolute;
   width:10px; height:10px;
   border: 1px solid var(--line-strong);
 }
-.hero-figure .corner.tl{ top:8px; left:8px; border-right:none; border-bottom:none; }
-.hero-figure .corner.tr{ top:8px; right:8px; border-left:none; border-bottom:none; }
-.hero-figure .corner.bl{ bottom:8px; left:8px; border-right:none; border-top:none; }
-.hero-figure .corner.br{ bottom:8px; right:8px; border-left:none; border-top:none; }
+.hero-figure .corner.tl, .ring-figure .corner.tl{ top:8px; left:8px; border-right:none; border-bottom:none; }
+.hero-figure .corner.tr, .ring-figure .corner.tr{ top:8px; right:8px; border-left:none; border-bottom:none; }
+.hero-figure .corner.bl, .ring-figure .corner.bl{ bottom:8px; left:8px; border-right:none; border-top:none; }
+.hero-figure .corner.br, .ring-figure .corner.br{ bottom:8px; right:8px; border-left:none; border-top:none; }
 .hero-figure figcaption{
   position:absolute;
-  bottom: 14px; left: 18px;
+  bottom: 14px; left: 18px; right: 18px;
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing:.06em;
@@ -772,6 +784,127 @@ section + section{ border-top: 1px solid var(--line); }
 .audience-list p{ opacity:.85; margin-bottom:0; font-size:15px; }
 @media (max-width: 700px){
   .audience-list{ grid-template-columns: 1fr; }
+}
+
+/* ---- Achieving section: table + interactive ecosystem diagram ------ */
+.achieving-layout{
+  display:grid;
+  grid-template-columns: 0.82fr 1.18fr;
+  gap: 48px;
+  align-items:center;
+}
+.audience-list--compact{
+  grid-template-columns: 1fr;
+}
+.audience-list--compact > *{
+  padding: 18px 22px;
+  transition: background-color .25s ease, box-shadow .25s ease;
+}
+.audience-list--compact h3{ font-size: 15px; transition: color .25s ease; }
+.audience-list--compact p{ font-size: 13.5px; }
+.audience-list--compact > .is-active{
+  background: color-mix(in srgb, var(--node-accent, var(--blueprint-2)) 12%, var(--paper));
+  box-shadow: inset 3px 0 0 var(--node-accent, var(--blueprint-2));
+}
+.audience-list--compact > .is-active h3{ color: var(--node-accent, var(--blueprint-2)); }
+@media (max-width: 900px){
+  .achieving-layout{ grid-template-columns: 1fr; }
+}
+
+.ring-figure{
+  position:relative;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content:center;
+  padding: 14px;
+}
+.ring-figure figcaption{
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing:.06em;
+  color: var(--ink);
+  opacity:.6;
+  text-align:center;
+}
+.ring-anim{
+  display:block;
+  width:100%;
+  aspect-ratio: 1/1;
+}
+.ring-anim-track{
+  fill:none;
+  stroke: var(--line-strong);
+  stroke-width:1.5;
+}
+.ring-anim-dot{
+  fill: var(--brass-ink);
+  opacity: 0;
+}
+.ring-anim-glow{
+  fill:none;
+  stroke: var(--brass-2);
+  stroke-width:10;
+  opacity:0;
+  filter: blur(10px);
+}
+.ring-anim-circle{
+  fill: var(--paper);
+  stroke: var(--brass-ink);
+  stroke-width:2.5;
+}
+.ring-anim-id{
+  font-family: var(--mono);
+  font-size:26px;
+  font-weight:500;
+  text-anchor:middle;
+  fill: var(--brass-ink);
+}
+.ring-anim-label{
+  font-family: var(--display);
+  font-weight:600;
+  font-size:24px;
+  line-height:1.28;
+  color: var(--ink);
+  text-align:center;
+}
+.ring-anim-node{ cursor:pointer; }
+.ring-anim-node:focus{ outline:none; }
+.ring-anim-node:focus-visible .ring-anim-circle{
+  stroke: var(--node-accent, var(--blueprint-2)) !important;
+  stroke-width: 3.5 !important;
+}
+.ring-anim-node.is-selected .ring-anim-circle{
+  stroke: var(--node-accent, var(--blueprint-2)) !important;
+  stroke-width: 4 !important;
+}
+.ring-anim-node.is-selected .ring-anim-id{
+  fill: var(--node-accent, var(--blueprint-2)) !important;
+}
+.ring-anim-node.is-selected .ring-anim-glow{
+  opacity: .5 !important;
+  stroke: var(--node-accent, var(--blueprint-2)) !important;
+}
+.ring-anim-node.is-selected .ring-anim-label{
+  color: var(--node-accent, var(--blueprint-2));
+}
+
+@media (prefers-reduced-motion: reduce){
+  .ring-anim-dot{ opacity:0; }
+}
+
+/* Below ~640px the ring diagram's node labels shrink past legibility (the
+   SVG scales as one vector, foreignObject text included). The same four
+   items are already spelled out in full in .audience-list--compact right
+   above it, so on small screens keep just the numbered ring — dropping the
+   duplicate text avoids both the illegible type and its collision with the
+   figcaption underneath. */
+@media (max-width: 640px){
+  .ring-anim-node foreignObject{ display:none; }
+  .ring-anim-id{ font-size: 34px; }
 }
 
 /* How to use it — numbered steps */
