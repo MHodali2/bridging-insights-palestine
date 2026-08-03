@@ -224,8 +224,8 @@ section[id]{ scroll-margin-top: 140px; }
 
 .section-nav{
   position: fixed;
-  top: 50%;
-  right: 22px;
+  top: max(230px, 50%);
+  right: 16px;
   transform: translateY(-50%);
   z-index: 60;
 }
@@ -234,64 +234,68 @@ section[id]{ scroll-margin-top: 140px; }
   margin:0; padding:0;
   display:flex;
   flex-direction:column;
-  gap: 15px;
+  gap: 12px;
 }
 .section-nav li{ display:flex; justify-content:flex-end; }
 .section-nav a{
   display:flex;
   align-items:center;
-  gap: 10px;
+  gap: 7px;
   text-decoration:none;
   padding: 3px 0;
 }
 .section-nav-index{
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10px;
   color: var(--brass-ink);
   white-space:nowrap;
-  opacity:0;
-  transform: translateX(6px);
-  transition: opacity .25s ease, transform .25s ease;
+  opacity: .55;
+  transition: opacity .25s ease, transform .25s ease, color .2s ease;
 }
 .section-nav-label{
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing:.08em;
+  font-size: 10px;
+  letter-spacing:.04em;
   text-transform: uppercase;
   color: var(--ink);
   white-space:nowrap;
-  background: var(--paper);
-  border: 1px solid var(--line-strong);
-  padding: 5px 10px;
-  opacity:0;
-  transform: translateX(10px);
-  transition: opacity .25s ease .02s, transform .25s ease .02s, color .2s ease, border-color .2s ease;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 4px 7px;
+  opacity: .55;
+  transition: opacity .25s ease, transform .25s ease, color .2s ease, border-color .2s ease, background-color .2s ease;
 }
 .section-nav-dash{
   flex: 0 0 auto;
-  width: 20px;
+  width: 16px;
   height: 1px;
   background: var(--line-strong);
   transition: width .3s ease, background-color .3s ease;
 }
 .section-nav a:hover .section-nav-index,
-.section-nav a:hover .section-nav-label,
-.section-nav a.active .section-nav-index,
-.section-nav a.active .section-nav-label{
-  opacity:1;
-  transform: translateX(0);
+.section-nav a:hover .section-nav-label{
+  opacity: 1;
+  transform: translateX(-4px);
 }
 .section-nav a:hover .section-nav-dash{
-  width: 36px;
+  width: 28px;
   background: var(--brass-ink);
 }
+.section-nav a.active .section-nav-index,
+.section-nav a.active .section-nav-label{
+  opacity: 1;
+}
 .section-nav a.active .section-nav-dash{
-  width: 36px;
+  width: 28px;
   background: var(--ink);
 }
 .section-nav a.active .section-nav-label{
   color: var(--brass-ink);
   border-color: var(--brass-ink);
+  background: var(--paper);
+}
+.section-nav a.active:hover .section-nav-label{
+  transform: translateX(-4px);
 }
 
 @media (max-width: 1320px){
@@ -551,6 +555,9 @@ section + section{ border-top: 1px solid var(--line); }
 
 /* About page: larger, more prominent title */
 .team-masthead h1{ font-size: clamp(56px, 9vw, 104px); max-width: none; }
+
+/* Advisory Group heading — matches the "Team" masthead title font */
+.advisory-title{ font-size: clamp(34px, 4.6vw, 52px); max-width: 18ch; }
 
 /* Values row — pills in the theme's accent colors */
 .values-row{
