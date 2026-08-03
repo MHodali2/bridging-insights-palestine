@@ -136,7 +136,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   display:flex;
   align-items:flex-end;
   justify-content: space-between;
-  padding: 22px 32px 0;
+  padding: 14px 32px 0;
   max-width: var(--max);
   margin: 0 auto;
   gap: 24px;
@@ -149,7 +149,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   color: var(--ink);
 }
 .brand-logo{
-  height: 64px;
+  height: 120px;
   width: auto;
   display:block;
 }
@@ -214,6 +214,88 @@ nav.primary-nav a[aria-current="page"]{
   }
   nav.primary-nav li{ padding: 10px 0; border-bottom: 1px solid var(--line); }
   .nav-toggle{ display:inline-block; }
+}
+
+/* --------------------------------------------------------------------------
+   Section nav — vertical rail of dimension ticks, one per page section
+   -------------------------------------------------------------------------- */
+
+section[id]{ scroll-margin-top: 140px; }
+
+.section-nav{
+  position: fixed;
+  top: 50%;
+  right: 22px;
+  transform: translateY(-50%);
+  z-index: 60;
+}
+.section-nav ul{
+  list-style:none;
+  margin:0; padding:0;
+  display:flex;
+  flex-direction:column;
+  gap: 15px;
+}
+.section-nav li{ display:flex; justify-content:flex-end; }
+.section-nav a{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  text-decoration:none;
+  padding: 3px 0;
+}
+.section-nav-index{
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--brass-ink);
+  white-space:nowrap;
+  opacity:0;
+  transform: translateX(6px);
+  transition: opacity .25s ease, transform .25s ease;
+}
+.section-nav-label{
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing:.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space:nowrap;
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  padding: 5px 10px;
+  opacity:0;
+  transform: translateX(10px);
+  transition: opacity .25s ease .02s, transform .25s ease .02s, color .2s ease, border-color .2s ease;
+}
+.section-nav-dash{
+  flex: 0 0 auto;
+  width: 20px;
+  height: 1px;
+  background: var(--line-strong);
+  transition: width .3s ease, background-color .3s ease;
+}
+.section-nav a:hover .section-nav-index,
+.section-nav a:hover .section-nav-label,
+.section-nav a.active .section-nav-index,
+.section-nav a.active .section-nav-label{
+  opacity:1;
+  transform: translateX(0);
+}
+.section-nav a:hover .section-nav-dash{
+  width: 36px;
+  background: var(--brass-ink);
+}
+.section-nav a.active .section-nav-dash{
+  width: 36px;
+  background: var(--ink);
+}
+.section-nav a.active .section-nav-label{
+  color: var(--brass-ink);
+  border-color: var(--brass-ink);
+}
+
+@media (max-width: 1320px){
+  .section-nav{ display:none; }
 }
 
 /* --------------------------------------------------------------------------
@@ -490,16 +572,19 @@ section + section{ border-top: 1px solid var(--line); }
   cursor: default;
   transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
 }
+.value-pill{
+  box-shadow: 0 0 24px -4px var(--glow, transparent);
+}
 .value-pill:hover{
   transform: scale(1.08);
   filter: brightness(1.18) saturate(1.15);
-  box-shadow: 0 0 28px -4px var(--brass-2), 0 10px 20px -6px rgba(0,0,0,.3);
+  box-shadow: 0 0 36px 2px var(--glow, var(--brass-2)), 0 10px 20px -6px rgba(0,0,0,.3);
 }
-.value-pill.c-blueprint{ background: var(--blueprint); }
-.value-pill.c-blueprint-2{ background: var(--blueprint-2); }
-.value-pill.c-brass{ background: var(--brass); color: var(--ink); }
-.value-pill.c-brass-ink{ background: var(--brass-ink); }
-.value-pill.c-ink{ background: var(--ink); }
+.value-pill.c-blueprint{ background: var(--blueprint); --glow: color-mix(in srgb, var(--blueprint) 65%, transparent); }
+.value-pill.c-blueprint-2{ background: var(--blueprint-2); --glow: color-mix(in srgb, var(--blueprint-2) 65%, transparent); }
+.value-pill.c-brass{ background: var(--brass); color: var(--ink); --glow: color-mix(in srgb, var(--brass) 65%, transparent); }
+.value-pill.c-brass-ink{ background: var(--brass-ink); --glow: color-mix(in srgb, var(--brass-ink) 65%, transparent); }
+.value-pill.c-ink{ background: var(--ink); --glow: color-mix(in srgb, var(--ink) 65%, transparent); }
 
 @media (max-width: 560px){
   .value-pill{ padding: 13px 24px; font-size: 16px; }
