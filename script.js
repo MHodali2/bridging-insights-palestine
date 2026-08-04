@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+  var navRail = document.querySelector('.section-nav');
   var navLinks = document.querySelectorAll('.section-nav a');
   var sections = document.querySelectorAll('section[id]');
   if (!navLinks.length || !sections.length || !('IntersectionObserver' in window)) return;
@@ -42,6 +43,9 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!link || !entry.isIntersecting) return;
       navLinks.forEach(function (l) { l.classList.remove('active'); });
       link.classList.add('active');
+      if (navRail) {
+        navRail.classList.toggle('on-dark', entry.target.dataset.navTheme === 'dark');
+      }
     });
   }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
 
