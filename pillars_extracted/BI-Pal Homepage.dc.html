@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #eeece4; -webkit-font-smoothing: antialiased; }
+    a { color: #6d1f45; }
+    a:hover { color: #b3466a; }
+  </style>
+</helmet>
+<div style="background:#eeece4;color:#211d1a;font-family:'Lora',serif;overflow:hidden;">
+
+  <div style="position:sticky;top:0;z-index:50;background:#eeece4;border-bottom:1px solid rgba(33,29,26,0.12);">
+    <div style="max-width:1400px;margin:0 auto;padding:18px 48px;display:flex;align-items:center;justify-content:space-between;gap:32px;">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div style="position:relative;width:52px;height:52px;background:#6d1f45;flex-shrink:0;">
+          <div style="position:absolute;top:3px;left:7px;font-weight:700;font-size:32px;color:#f6f4ef;line-height:1;">B</div>
+          <div style="position:absolute;top:5px;right:5px;width:9px;height:9px;border-radius:50%;background:#c9b23a;"></div>
+          <div style="position:absolute;bottom:5px;left:7px;width:5px;height:20px;background:#c99a2b;"></div>
+        </div>
+        <div style="font-weight:600;font-size:18px;color:#211d1a;">Bridging Insights Palestine</div>
+      </div>
+      <nav style="display:flex;align-items:center;gap:28px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;">
+        <a href="#pillars" style="color:#211d1a;text-decoration:none;border-bottom:2px solid #c99a2b;padding-bottom:4px;">Home</a>
+        <a href="#" style="color:rgba(33,29,26,0.55);text-decoration:none;">About Us</a>
+      </nav>
+    </div>
+  </div>
+
+  <div style="position:fixed;top:120px;right:36px;display:flex;flex-direction:column;gap:10px;z-index:40;">
+    <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="2">
+      <a href="{{ item.href }}" style="{{ item.rowStyle }}">
+        <span style="{{ item.numStyle }}">{{ item.num }}</span>
+        <span style="{{ item.labelStyle }}">{{ item.label }}</span>
+      </a>
+    </sc-for>
+  </div>
+
+  <div data-nav-key="pillars" style="max-width:1400px;margin:0 auto;padding:120px 48px 140px;">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;">
+      <span style="width:8px;height:8px;background:#b3466a;border-radius:50%;"></span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#b3466a;">01 · Strategic pillars</span>
+    </div>
+    <h2 style="font-size:36px;font-weight:600;line-height:1.2;margin:0 0 56px;max-width:640px;">A theory-and-practice methodology</h2>
+    <div data-reveal-key="pillars" style="{{ reveal_pillars }}">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;">
+        <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="2">
+          <div style="text-align:center;">
+            <div style="width:6px;height:110px;background:linear-gradient(180deg,#c99a2b,#6d1f45);margin:0 auto 28px;transform-origin:bottom;{{ p.barExtra }}"></div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#b3466a;letter-spacing:0.1em;margin-bottom:10px;">PILLAR {{ p.n }}</div>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 14px;">{{ p.title }}</h3>
+            <p style="font-size:15px;line-height:1.7;color:rgba(33,29,26,0.7);max-width:400px;margin:0 auto;">{{ p.desc }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div data-nav-key="why" style="max-width:1400px;margin:0 auto;padding:0 48px 140px;">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;">
+      <span style="width:8px;height:8px;background:#b3466a;border-radius:50%;"></span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#b3466a;">02 · Why this matters</span>
+    </div>
+    <h2 style="font-size:36px;font-weight:600;margin:0 0 12px;">Why this matters</h2>
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(33,29,26,0.45);margin:0 0 48px;">Hover a card to read more</p>
+    <div data-reveal-key="why" style="{{ reveal_why }}">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;">
+        <sc-for list="{{ whyCards }}" as="w" hint-placeholder-count="6">
+          <div style="perspective:1200px;height:190px;">
+            <div style="position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.2,.7,.3,1);transform-style:preserve-3d;" style-hover="transform:rotateY(180deg);">
+              <div style="position:absolute;inset:0;backface-visibility:hidden;background:#f6f4ef;border:1px solid rgba(109,31,69,0.2);padding:26px;display:flex;flex-direction:column;justify-content:space-between;">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#b3466a;">{{ w.n }}</div>
+                <div style="font-size:18px;font-weight:600;line-height:1.3;">{{ w.title }}</div>
+              </div>
+              <div style="position:absolute;inset:0;backface-visibility:hidden;transform:rotateY(180deg);background:#6d1f45;color:#f6f4ef;padding:26px;display:flex;align-items:center;">
+                <div style="font-size:14px;line-height:1.6;">{{ w.desc }}</div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#211d1a;color:#f6f4ef;padding:64px 48px 36px;">
+    <div style="max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1.4fr 0.8fr 0.8fr;gap:48px;">
+      <div>
+        <div style="font-weight:600;font-size:18px;margin-bottom:16px;">Bridging Insights Palestine</div>
+        <p style="font-size:14px;line-height:1.6;color:rgba(246,244,239,0.6);max-width:380px;">Towards an evidence-based conflict resolution framework for a just and agreed upon solution to the Palestinian issue.</p>
+      </div>
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#c99a2b;margin-bottom:16px;">Site</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;">
+          <a href="#pillars" style="color:rgba(246,244,239,0.75);text-decoration:none;">Home</a>
+          <a href="#" style="color:rgba(246,244,239,0.75);text-decoration:none;">About Us</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#c99a2b;margin-bottom:16px;">Contact</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;color:rgba(246,244,239,0.75);">
+          <div>ashrafkhatib.bi@gmail.com</div>
+          <div>fatinahodali.bi@gmail.com</div>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1400px;margin:56px auto 0;padding-top:24px;border-top:1px solid rgba(246,244,239,0.15);font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(246,244,239,0.4);">© 2026 Bridging Insights Palestine. All rights reserved.</div>
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;motionIntensity&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;moderate&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;options&quot;: [&quot;subtle&quot;, &quot;moderate&quot;, &quot;bold&quot;], &quot;section&quot;: &quot;Motion&quot;}, &quot;reduceMotion&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Motion&quot;}}">
+class Component extends DCLogic {
+  state = { visible: {}, active: 'pillars' };
+
+  pillars = [
+    { n: '01', title: 'The Evidence-Based Research Program', desc: 'A comparative study of conflicts that reached resolution — Why It Worked, devised by Bridging Insights, Inc. and led by Harvard Kennedy School\u2019s Negotiation and Conflict Resolution Collaboratory — applied through a contextualized toolkit to diagnose gaps and enable interventions.' },
+    { n: '02', title: 'The Engagement, Outreach and Collaboration Program', desc: 'Engaging the Palestinian community top-down and bottom-up, creating safe spaces for pluralism, and including the perspectives of partners and stakeholders.' },
+  ];
+  whyItems = [
+    { n: '01', title: 'New approaches, locally owned', desc: 'New approaches to conflict resolution, driven and owned by relevant stakeholders.' },
+    { n: '02', title: 'Top-down and bottom-up', desc: 'Inclusion of perspectives from all societal levels, fostering dialogue and ownership.' },
+    { n: '03', title: 'Stronger foundations', desc: 'Building foundations for equitable representation and stronger regional partnerships.' },
+    { n: '04', title: 'A reason for hope', desc: 'Protracted conflicts once thought stalemated have been resolved — that gives hope.' },
+    { n: '05', title: 'A more cohesive society', desc: 'A sustainable political process needs a society that can organize and respond collectively.' },
+    { n: '06', title: 'Addressing internal challenges', desc: 'Insights from resolved conflicts show internal challenges within Palestine must be addressed.' },
+  ];
+  navItems = [
+    { key: 'pillars', num: '01', label: 'Strategic pillars' },
+    { key: 'why', num: '02', label: 'Why this matters' },
+  ];
+
+  componentDidMount() {
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const key = entry.target.getAttribute('data-reveal-key');
+        if (key && entry.isIntersecting) {
+          this.setState((s) => ({ visible: { ...s.visible, [key]: true } }));
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+
+    this.navObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const key = entry.target.getAttribute('data-nav-key');
+          if (key) this.setState({ active: key });
+        }
+      });
+    }, { threshold: 0.5 });
+
+    this._observedReveal = new Set();
+    this._observedNav = new Set();
+    this.scanAndObserve = () => {
+      document.querySelectorAll('[data-reveal-key]').forEach((el) => {
+        if (!this._observedReveal.has(el)) { this._observedReveal.add(el); this.observer.observe(el); }
+      });
+      document.querySelectorAll('[data-nav-key]').forEach((el) => {
+        if (!this._observedNav.has(el)) { this._observedNav.add(el); this.navObserver.observe(el); }
+      });
+    };
+    this.scanAndObserve();
+    requestAnimationFrame(this.scanAndObserve);
+    this.mutObserver = new MutationObserver(this.scanAndObserve);
+    this.mutObserver.observe(document.body, { childList: true, subtree: true });
+  }
+
+  componentWillUnmount() {
+    if (this.observer) this.observer.disconnect();
+    if (this.navObserver) this.navObserver.disconnect();
+    if (this.mutObserver) this.mutObserver.disconnect();
+  }
+
+  get motionMult() {
+    const m = this.props.motionIntensity || 'moderate';
+    return { subtle: 0.5, moderate: 1, bold: 1.7 }[m] || 1;
+  }
+
+  reveal(key, opts = {}) {
+    if (this.props.reduceMotion) return { opacity: 1, transform: 'none', transition: 'none' };
+    const shown = !!this.state.visible[key];
+    const m = this.motionMult;
+    const dist = (opts.distance ?? 24) * m;
+    const dur = (opts.duration ?? 0.9);
+    return {
+      opacity: shown ? 1 : 0,
+      transform: shown ? 'none' : `translateY(${dist}px)`,
+      transition: `opacity ${dur}s cubic-bezier(.2,.7,.3,1) ${opts.delay || 0}s, transform ${dur}s cubic-bezier(.2,.7,.3,1) ${opts.delay || 0}s`,
+    };
+  }
+
+  renderVals() {
+    const active = this.state.active;
+    const navItems = this.navItems.map((it) => {
+      const isActive = active === it.key;
+      return {
+        ...it,
+        href: '#' + it.key,
+        rowStyle: { display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', padding: '6px 10px', border: isActive ? '1px solid #c99a2b' : '1px solid transparent', background: isActive ? '#f6f4ef' : 'transparent', transition: 'all .3s ease' },
+        numStyle: { fontFamily: "'IBM Plex Mono',monospace", fontSize: '11px', color: isActive ? '#c99a2b' : 'rgba(33,29,26,0.4)' },
+        labelStyle: { fontFamily: "'IBM Plex Mono',monospace", fontSize: '11px', letterSpacing: '0.03em', textTransform: 'uppercase', color: isActive ? '#211d1a' : 'rgba(33,29,26,0.45)' },
+      };
+    });
+
+    return {
+      navItems,
+      reveal_pillars: this.reveal('pillars'),
+      pillars: this.pillars.map((p, i) => ({ ...p, barExtra: `transition:transform .8s cubic-bezier(.2,.7,.3,1) ${i * 0.15}s;transform:${this.props.reduceMotion || this.state.visible.pillars ? 'scaleY(1)' : 'scaleY(0)'};` })),
+      reveal_why: this.reveal('why'),
+      whyCards: this.whyItems,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,4 +1,21 @@
 document.addEventListener('DOMContentLoaded', function () {
+  var flipCards = document.querySelectorAll('.flip-card');
+  flipCards.forEach(function (card) {
+    function toggle() {
+      var flipped = card.classList.toggle('is-flipped');
+      card.setAttribute('aria-expanded', flipped ? 'true' : 'false');
+    }
+    card.addEventListener('click', toggle);
+    card.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        toggle();
+      }
+    });
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
   var toggle = document.querySelector('.nav-toggle');
   var nav = document.querySelector('.primary-nav');
   if (!toggle || !nav) return;
@@ -118,7 +135,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     audienceItems.forEach(function (item) {
       var i = parseInt(item.getAttribute('data-node'), 10);
-      item.classList.toggle('is-active', i === selectedIdx);
+      var isSelected = i === selectedIdx;
+      item.classList.toggle('is-active', isSelected);
+      item.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
     });
   }
 
@@ -128,6 +147,17 @@ document.addEventListener('DOMContentLoaded', function () {
     node.setAttribute('aria-pressed', 'false');
     node.addEventListener('click', function () { setSelected(i); });
     node.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        setSelected(i);
+      }
+    });
+  });
+
+  audienceItems.forEach(function (item) {
+    var i = parseInt(item.getAttribute('data-node'), 10);
+    item.addEventListener('click', function () { setSelected(i); });
+    item.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
         e.preventDefault();
         setSelected(i);
@@ -187,4 +217,45 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   requestAnimationFrame(frame);
+})();
+
+// Reveal content on scroll: any direct child of a .wrap block fades/slides
+// in, and children of known grid/list containers stagger individually.
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var groupSelector = '.grid-3, .lens-grid, .audience-list, .action-grid, ' +
+    '.team-grid, .stage-timeline, .steps-list, .values-row, .footer-grid, ' +
+    '.spec-list, .contributors';
+
+  var targets = [];
+  document.querySelectorAll('.wrap').forEach(function (wrap) {
+    Array.prototype.forEach.call(wrap.children, function (child) {
+      if (child.matches(groupSelector)) {
+        Array.prototype.forEach.call(child.children, function (grandchild) {
+          targets.push(grandchild);
+        });
+      } else {
+        targets.push(child);
+      }
+    });
+  });
+
+  targets.forEach(function (el) {
+    var siblings = Array.prototype.slice.call(el.parentElement.children);
+    var idx = Math.min(siblings.indexOf(el), 5);
+    el.classList.add('reveal');
+    el.style.transitionDelay = (idx * 70) + 'ms';
+  });
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('reveal-visible');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  targets.forEach(function (el) { observer.observe(el); });
 })();
