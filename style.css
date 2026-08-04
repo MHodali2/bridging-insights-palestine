@@ -563,6 +563,7 @@ section + section{ border-top: 1px solid var(--line); }
 }
 
 /* Quote / callout block */
+section#hope{ background: var(--blueprint); }
 .callout{
   border-top: 3px solid var(--brass);
   padding: 20px 0 0 0;
@@ -572,7 +573,7 @@ section + section{ border-top: 1px solid var(--line); }
   max-width: 700px;
   margin: 0 auto;
   text-align: center;
-  color: var(--ink);
+  color: var(--paper);
 }
 .callout cite{
   display:block;
@@ -582,7 +583,7 @@ section + section{ border-top: 1px solid var(--line); }
   font-size: 12px;
   letter-spacing:.06em;
   text-transform: uppercase;
-  color: var(--brass-ink);
+  color: var(--brass-2);
 }
 
 /* Team grid (About page) */
@@ -1018,11 +1019,26 @@ section + section{ border-top: 1px solid var(--line); }
 }
 .step-item p{ margin:0; opacity:.9; }
 
-/* Our approach — staircase layout, each step indented past the last by
-   the same fixed amount (--stair-step), so the sequence reads as one
-   even diagonal rather than an arbitrary cascade. */
-.steps-list--stair{ --stair-step: 48px; border-bottom: 1px solid var(--line-strong); padding-bottom: 24px; }
-.steps-list--stair .step-item{ border-bottom: none; }
+/* Our approach — staircase diagram. Each step is indented past the last
+   by a fixed amount (--stair-step); a riser (vertical) and tread
+   (horizontal, 2:1 against the riser) trace the stair shape. The row
+   height is pinned to --stair-rise (not to content), so text is set to
+   a single line that runs off to the right instead of wrapping — that
+   keeps every step exactly --stair-rise tall, which is what makes each
+   tread land precisely on the next step's riser with no gap or jump. */
+.steps-list--stair{
+  --stair-rise: 48px;
+  --stair-step: calc(var(--stair-rise) * 2);
+  max-width: none;
+  padding-bottom: 1px;
+}
+.steps-list--stair .step-item{
+  position: relative;
+  height: var(--stair-rise);
+  padding: 10px 0 10px 20px;
+  border-bottom: none;
+  white-space: nowrap;
+}
 .steps-list--stair .step-item:first-child{ border-top: none; }
 .steps-list--stair .step-item:nth-child(1){ margin-left: calc(var(--stair-step) * 0); }
 .steps-list--stair .step-item:nth-child(2){ margin-left: calc(var(--stair-step) * 1); }
@@ -1030,8 +1046,39 @@ section + section{ border-top: 1px solid var(--line); }
 .steps-list--stair .step-item:nth-child(4){ margin-left: calc(var(--stair-step) * 3); }
 .steps-list--stair .step-item:nth-child(5){ margin-left: calc(var(--stair-step) * 4); }
 
+/* riser: vertical line spanning the full (fixed) height of the step */
+.steps-list--stair .step-item::before{
+  content:"";
+  position:absolute;
+  left:0; top:0; bottom:0;
+  width:1px;
+  background: var(--blueprint-2);
+}
+/* tread: horizontal line at the step's foot, twice the riser's length
+   (2:1) — since every step is exactly --stair-rise tall, this lands
+   exactly on the next step's riser, so the run reads as one connected
+   line rather than separate marks. */
+.steps-list--stair .step-item::after{
+  content:"";
+  position:absolute;
+  left:0; bottom:0;
+  width: var(--stair-step);
+  height:1px;
+  background: var(--blueprint-2);
+}
+
 @media (max-width: 640px){
-  .steps-list--stair{ --stair-step: 22px; }
+  /* Forcing single-line text at this width would push steps far off
+     screen; let text wrap and rows size to content again, same as the
+     shared .steps-list layout. */
+  .steps-list--stair .step-item{
+    height: auto;
+    white-space: normal;
+    padding: 18px 0 18px 20px;
+  }
+  .steps-list--stair .step-item::before{ top:0; bottom:0; height:auto; }
+  .steps-list--stair .step-item::after{ bottom:0; }
+  .steps-list--stair{ --stair-rise: 20px; }
 }
 
 /* Domain block — one per interdependent part of the framework */
