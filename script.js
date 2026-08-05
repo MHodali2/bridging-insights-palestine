@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function toggle() {
       var flipped = card.classList.toggle('is-flipped');
       card.setAttribute('aria-expanded', flipped ? 'true' : 'false');
+      if (flipped) card.classList.remove('is-peeking');
     }
     card.addEventListener('click', toggle);
     card.addEventListener('keydown', function (e) {
@@ -13,6 +14,23 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  var firstCard = document.querySelector('.flip-grid .flip-card');
+  if (!firstCard || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      if (!firstCard.classList.contains('is-flipped')) {
+        firstCard.classList.add('is-peeking');
+      }
+      observer.unobserve(firstCard);
+    });
+  }, { threshold: 0.6 });
+  observer.observe(firstCard);
 });
 
 document.addEventListener('DOMContentLoaded', function () {
