@@ -1,4 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
+  var slides = document.querySelectorAll('#heroSlideshow .hero-slide');
+  if (slides.length < 2) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var current = 0;
+  setInterval(function () {
+    slides[current].classList.remove('is-active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('is-active');
+  }, 6000);
+});
+
+document.addEventListener('DOMContentLoaded', function () {
   var flipCards = document.querySelectorAll('.flip-card');
   flipCards.forEach(function (card) {
     function toggle() {
@@ -240,6 +253,89 @@ document.addEventListener('DOMContentLoaded', function () {
 
   requestAnimationFrame(frame);
 })();
+
+// Lightbox: click (or Enter/Space) any framed figure photo to view it
+// enlarged in an overlay. The overlay markup is built once, lazily, and
+// reused for every trigger on the page.
+document.addEventListener('DOMContentLoaded', function () {
+  var triggers = document.querySelectorAll('.hero-figure img');
+  if (!triggers.length) return;
+
+  var overlay, imgEl, captionEl, closeBtn, lastFocused;
+
+  function build() {
+    overlay = document.createElement('div');
+    overlay.className = 'lightbox';
+    overlay.hidden = true;
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', 'Expanded image');
+
+    var frame = document.createElement('div');
+    frame.className = 'lightbox-frame';
+
+    closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'lightbox-close';
+    closeBtn.setAttribute('aria-label', 'Close expanded image');
+    closeBtn.textContent = '×';
+
+    imgEl = document.createElement('img');
+    imgEl.className = 'lightbox-img';
+
+    captionEl = document.createElement('p');
+    captionEl.className = 'lightbox-caption';
+
+    frame.appendChild(closeBtn);
+    frame.appendChild(imgEl);
+    frame.appendChild(captionEl);
+    overlay.appendChild(frame);
+    document.body.appendChild(overlay);
+
+    closeBtn.addEventListener('click', close);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) close();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay && !overlay.hidden) close();
+    });
+  }
+
+  function open(img) {
+    if (!overlay) build();
+    lastFocused = document.activeElement;
+    imgEl.src = img.currentSrc || img.src;
+    imgEl.alt = img.alt || '';
+    var figure = img.closest('figure');
+    var caption = figure ? figure.querySelector('figcaption') : null;
+    captionEl.textContent = caption ? caption.textContent : '';
+    overlay.hidden = false;
+    document.body.classList.add('lightbox-open');
+    closeBtn.focus();
+  }
+
+  function close() {
+    if (!overlay || overlay.hidden) return;
+    overlay.hidden = true;
+    document.body.classList.remove('lightbox-open');
+    imgEl.src = '';
+    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+  }
+
+  triggers.forEach(function (img) {
+    img.classList.add('is-expandable');
+    img.setAttribute('role', 'button');
+    img.setAttribute('tabindex', '0');
+    img.setAttribute('aria-label', 'Expand image: ' + (img.alt || 'photo'));
+    img.addEventListener('click', function () { open(img); });
+    img.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        open(img);
+      }
+    });
+  });
+});
 
 // Reveal content on scroll: any direct child of a .wrap block fades/slides
 // in, and children of known grid/list containers stagger individually.
