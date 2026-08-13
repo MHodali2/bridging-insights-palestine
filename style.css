@@ -71,6 +71,35 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 /* --------------------------------------------------------------------------
+   Scrollbar — slim, on-brand rail. Thumb reuses the brass→blueprint
+   gradient that already marks the pillar accent bars, so scrolling reads
+   as part of the same drafting-tool system instead of a stock OS control.
+   -------------------------------------------------------------------------- */
+html{
+  scrollbar-width: thin;
+  scrollbar-color: var(--brass-ink) var(--paper-2);
+}
+::-webkit-scrollbar{
+  width: 14px;
+  height: 14px;
+}
+::-webkit-scrollbar-track{
+  background: var(--paper-2);
+  border-left: 1px solid var(--line);
+}
+::-webkit-scrollbar-thumb{
+  background-image: linear-gradient(180deg, var(--brass), var(--blueprint-2));
+  background-clip: padding-box;
+  border: 4px solid var(--paper-2);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover{
+  background-image: linear-gradient(180deg, var(--brass-2), var(--blueprint));
+  border-color: var(--paper-2);
+}
+::-webkit-scrollbar-corner{ background: var(--paper-2); }
+
+/* --------------------------------------------------------------------------
    Utility: mono labels / spec tags / dimension lines
    -------------------------------------------------------------------------- */
 
@@ -246,37 +275,38 @@ section[id]{ scroll-margin-top: 140px; }
   margin:0; padding:0;
   display:flex;
   flex-direction:column;
-  gap: 12px;
+  gap: 14px;
 }
 .section-nav li{ display:flex; justify-content:flex-end; }
 .section-nav a{
   display:flex;
   align-items:center;
-  gap: 7px;
+  gap: 8px;
   text-decoration:none;
   padding: 3px 0;
 }
 .section-nav-index{
   font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
   color: var(--brass-ink);
   white-space:nowrap;
-  opacity: .75;
+  opacity: .92;
   transition: opacity .25s ease, transform .25s ease, color .2s ease;
 }
 .section-nav-label{
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 600;
   letter-spacing:.04em;
   text-transform: uppercase;
   color: var(--ink);
   white-space:nowrap;
-  background: transparent;
+  background: rgba(244,240,239,.72);
   border: 1px solid transparent;
-  padding: 4px 7px;
-  opacity: .75;
+  border-radius: 3px;
+  padding: 4px 8px;
+  opacity: .92;
   transition: opacity .25s ease, transform .25s ease, color .2s ease, border-color .2s ease, background-color .2s ease;
 }
 .section-nav-dash{
@@ -290,6 +320,10 @@ section[id]{ scroll-margin-top: 140px; }
 .section-nav a:hover .section-nav-label{
   opacity: 1;
   transform: translateX(-4px);
+}
+.section-nav a:hover .section-nav-label{
+  background: var(--paper);
+  border-color: var(--line-strong);
 }
 .section-nav a:hover .section-nav-dash{
   width: 28px;
@@ -314,15 +348,19 @@ section[id]{ scroll-margin-top: 140px; }
 
 /* Over a dark/photo section (flagged via data-nav-theme="dark" and applied
    by script.js as the section crosses the nav's vertical position), swap
-   the idle rail to white. The active item keeps its opaque paper chip —
-   already legible on any backdrop — so it's excluded here. */
-.section-nav.on-dark .section-nav-index{ color: #fff; opacity: .95; }
-.section-nav.on-dark .section-nav-label{ color: #fff; opacity: .95; }
+   the idle rail to white, with a text-shadow so it stays legible against
+   whatever part of the photo it happens to sit over. The active item keeps
+   its opaque paper chip — already legible on any backdrop — so it's
+   excluded from the shadow/background overrides below. */
+.section-nav.on-dark .section-nav-index{ color: #fff; opacity: 1; text-shadow: 0 1px 4px rgba(0,0,0,.55); }
+.section-nav.on-dark .section-nav-label{ color: #fff; opacity: 1; background: rgba(0,0,0,.28); text-shadow: 0 1px 4px rgba(0,0,0,.55); }
 .section-nav.on-dark .section-nav-dash{ background: #fff; }
 .section-nav.on-dark a:hover .section-nav-index,
 .section-nav.on-dark a:hover .section-nav-label{ opacity: 1; }
+.section-nav.on-dark a:hover .section-nav-label{ background: rgba(0,0,0,.4); border-color: rgba(255,255,255,.5); }
 .section-nav.on-dark a:hover .section-nav-dash{ background: #fff; }
 .section-nav.on-dark a.active .section-nav-dash{ background: #fff; }
+.section-nav.on-dark a.active .section-nav-label{ color: var(--brass-ink); background: var(--paper); text-shadow: none; }
 
 @media (max-width: 1320px){
   .section-nav{ display:none; }
