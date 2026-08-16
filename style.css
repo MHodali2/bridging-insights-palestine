@@ -242,7 +242,8 @@ nav.primary-nav a[aria-current="page"]{
     gap:0;
     padding: 8px 32px 20px;
   }
-  nav.primary-nav li{ padding: 10px 0; border-bottom: 1px solid var(--line); }
+  nav.primary-nav li{ border-bottom: 1px solid var(--line); }
+  nav.primary-nav a{ display:block; padding: 12px 0; }
   .nav-toggle{ display:inline-block; }
 
   /* The logo image already contains the "Bridging Insights Palestine"
@@ -447,7 +448,7 @@ section[id]{ scroll-margin-top: 140px; }
   object-position: center 30%;
   display:block;
   opacity: 0;
-  transition: opacity 1.4s ease;
+  transition: opacity 0.9s ease;
 }
 .hero-slide.is-active{
   opacity: 1;
@@ -511,6 +512,25 @@ section[id]{ scroll-margin-top: 140px; }
   object-fit: cover;
   object-position: center 25%;
   display: block;
+}
+.hero-figure--fill{
+  aspect-ratio: auto;
+  height: 100%;
+}
+@media (max-width: 820px){
+  .hero-figure--fill{
+    aspect-ratio: 4/3;
+    height: auto;
+  }
+}
+/* Break the figure out of .wrap's side padding so it spans full viewport width once the two-col grid stacks */
+@media (max-width: 820px){
+  .hero-figure--edge{
+    width: 100vw;
+    margin: 0 calc(50% - 50vw);
+    border-left: none;
+    border-right: none;
+  }
 }
 .hero-figure img.is-expandable{
   cursor: zoom-in;
@@ -1076,6 +1096,9 @@ section#hope{ background: var(--blueprint); }
   .achieving-layout{ grid-template-columns: 1fr; }
   .ring-figure{ max-width: 100%; margin-left: 0; }
 }
+@media (max-width: 760px){
+  #achieving .ring-figure{ display: none; }
+}
 
 .ring-figure{
   position:relative;
@@ -1243,17 +1266,33 @@ section#hope{ background: var(--blueprint); }
 }
 
 @media (max-width: 640px){
-  /* Forcing single-line text at this width would push steps far off
-     screen; let text wrap and rows size to content again, same as the
-     shared .steps-list layout. */
+  /* The staircase relies on each step staying on one line; forcing
+     wrap while every step is indented further than the last squeezes
+     later steps' text into an increasingly narrow column. Drop the
+     indent/riser/tread geometry here and fall back to a plain
+     numbered list instead — the same row pattern .steps-list uses
+     elsewhere on the site (see the toolkit page). */
   .steps-list--stair .step-item{
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 14px;
     height: auto;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
     white-space: normal;
-    padding: 18px 0 18px 20px;
   }
-  .steps-list--stair .step-item::before{ top:0; bottom:0; height:auto; }
-  .steps-list--stair .step-item::after{ bottom:0; }
-  .steps-list--stair{ --stair-rise: 20px; }
+  .steps-list--stair .step-item:first-child{ border-top: 1px solid var(--line); }
+  .steps-list--stair .step-item:nth-child(1),
+  .steps-list--stair .step-item:nth-child(2),
+  .steps-list--stair .step-item:nth-child(3),
+  .steps-list--stair .step-item:nth-child(4),
+  .steps-list--stair .step-item:nth-child(5){
+    margin-left: 0;
+  }
+  .steps-list--stair .step-item::before,
+  .steps-list--stair .step-item::after{
+    content: none;
+  }
 }
 
 /* Domain block — one per interdependent part of the framework */
@@ -1416,6 +1455,13 @@ section#hope{ background: var(--blueprint); }
 }
 @media (max-width: 820px){
   .two-col{ grid-template-columns:1fr; }
+}
+
+/* "Who we work with": show the text before the image once the columns stack on mobile */
+@media (max-width: 820px){
+  #who .who-text{ order: 1; }
+  #who .hero-figure{ order: 2; }
+  #who .values-row{ order: 3; }
 }
 
 /* --------------------------------------------------------------------------

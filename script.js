@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     slides[current].classList.remove('is-active');
     current = (current + 1) % slides.length;
     slides[current].classList.add('is-active');
-  }, 6000);
+  }, 3500);
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -349,6 +349,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var targets = [];
   document.querySelectorAll('.wrap').forEach(function (wrap) {
+    // Skip the site footer: it's persistent chrome, not scroll-revealed
+    // content, and its bottom row sits too close to the end of the
+    // document to ever satisfy the -60px bottom rootMargin below —
+    // it would stay opacity:0 forever.
+    if (wrap.closest('.site-footer')) return;
     Array.prototype.forEach.call(wrap.children, function (child) {
       if (child.matches(groupSelector)) {
         Array.prototype.forEach.call(child.children, function (grandchild) {
