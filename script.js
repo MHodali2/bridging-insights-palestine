@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     slides[current].classList.remove('is-active');
     current = (current + 1) % slides.length;
     slides[current].classList.add('is-active');
-  }, 3500);
+  }, 4500);
 });
 
 document.addEventListener('DOMContentLoaded', function () {

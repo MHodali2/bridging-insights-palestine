@@ -444,14 +444,36 @@ section[id]{ scroll-margin-top: 140px; }
   inset: 0;
   width: 100%;
   height: 100%;
+  margin: 0;
+  display:block;
+}
+.hero-slide img{
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center 30%;
-  display:block;
+  display: block;
   opacity: 0;
   transition: opacity 0.9s ease;
 }
-.hero-slide.is-active{
+.hero-slide.is-active img{
   opacity: 1;
+}
+.hero-slide figcaption{
+  position: absolute;
+  left: 56px;
+  right: 34px;
+  bottom: 18px;
+  z-index: 1;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: var(--paper);
+  opacity: 0;
+  transition: opacity 1.4s ease-in-out;
+}
+.hero-slide.is-active figcaption{
+  opacity: .75;
 }
 .hero-banner::after{
   content:"";
