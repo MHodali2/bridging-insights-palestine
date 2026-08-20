@@ -343,9 +343,8 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var groupSelector = '.grid-3, .lens-grid, .audience-list, .action-grid, ' +
-    '.team-grid, .stage-timeline, .steps-list, .values-row, .footer-grid, ' +
-    '.spec-list, .contributors';
+  var groupSelector = '.grid-3, .lens-grid, .audience-list, ' +
+    '.team-grid, .steps-list, .values-row, .footer-grid';
 
   var targets = [];
   document.querySelectorAll('.wrap').forEach(function (wrap) {
