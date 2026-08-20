@@ -1,3 +1,21 @@
+// Keep the header + hero exactly filling the first viewport by measuring
+// the sticky header's real rendered height (it varies with font/zoom) and
+// exposing it as a CSS var the hero's height calc() reads from.
+(function () {
+  var header = document.querySelector('.site-header');
+  if (!header) return;
+
+  function setHeaderHeight() {
+    document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+  }
+
+  setHeaderHeight();
+  window.addEventListener('resize', setHeaderHeight);
+  if (window.ResizeObserver) {
+    new ResizeObserver(setHeaderHeight).observe(header);
+  }
+})();
+
 document.addEventListener('DOMContentLoaded', function () {
   var slides = document.querySelectorAll('#heroSlideshow .hero-slide');
   if (slides.length < 2) return;
@@ -60,13 +78,21 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
   var navRail = document.querySelector('.section-nav');
   var navLinks = document.querySelectorAll('.section-nav a');
-  var sections = document.querySelectorAll('section[id]');
-  if (!navLinks.length || !sections.length || !('IntersectionObserver' in window)) return;
+  if (!navLinks.length || !('IntersectionObserver' in window)) return;
 
+  // Nav targets aren't always <section> elements (e.g. the takeaways page
+  // rail points at individual .takeaway-case articles), so resolve each
+  // link's target by id rather than assuming a tag.
   var linkMap = {};
+  var sections = [];
   navLinks.forEach(function (link) {
-    linkMap[link.getAttribute('href').slice(1)] = link;
+    var id = link.getAttribute('href').slice(1);
+    var target = document.getElementById(id);
+    if (!target) return;
+    linkMap[id] = link;
+    sections.push(target);
   });
+  if (!sections.length) return;
 
   var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
