@@ -865,6 +865,13 @@ section#hope{ background: var(--blueprint); }
 /* Advisory Group heading — matches the "Team" masthead title font */
 .advisory-title{ font-size: clamp(34px, 4.6vw, 52px); max-width: 18ch; }
 
+/* Advisory panel: align text to the top of the image instead of stretching
+   to fill the row, so the shorter text column doesn't leave blank space
+   under the paragraph. It's also the last section on the page, so trim its
+   bottom padding to bring the footer in closer. */
+#advisory .two-col{ align-items: start; }
+#advisory{ padding-bottom: 24px; }
+
 /* Values row — pills in the theme's accent colors */
 .values-row{
   display:flex;
